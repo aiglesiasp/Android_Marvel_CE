@@ -76,4 +76,10 @@ dependencies {
     //NAVEGACION
     implementation(libs.androidx.navigation.compose)
 
+    // DAGGGER HILT
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
+
+
 }
