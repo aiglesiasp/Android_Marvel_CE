@@ -19,9 +19,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        buildConfigField("String", "MARVEL_PUBLIC_KEY", "cfa84e8f63e43679a5f9299c92a964a7")
-        buildConfigField("String", "MARVEL_PRIVATE_KEY", "eec98a5800df793ca31812187b3ae75e91597d9a")
     }
 
     buildTypes {

@@ -13,6 +13,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -23,18 +28,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.aiglepub.marvelcompose.MarvelApp
 import com.aiglepub.marvelcompose.data.entities.Character
+import com.aiglepub.marvelcompose.data.repositories.CharactersRepository
 
 @Composable
 fun CharactersScreen() {
-    val charactersList = (1..10).map {
-        Character(
-            id = it,
-            name = "Name $it",
-            description = "Description $it",
-            thumbnail = "https://via.placeholder.com/150x225/FFFF00/000000?text=name$it"
-        )
+
+    var charactersState by remember { mutableStateOf(emptyList<Character>()) }
+
+    // En la key le paso el argumento que si cambia se volveria a ejecutar
+    // Si le pongo TRUE eso es un estado que no cambia y solo se ejecuta 1 vez
+    LaunchedEffect(key1 = true) {
+        charactersState = CharactersRepository.getCharacters()
     }
-    CharactersScreenContent(characters = charactersList)
+
+
+    CharactersScreenContent(characters = charactersState)
 }
 
 @Composable
