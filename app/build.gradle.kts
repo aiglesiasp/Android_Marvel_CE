@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
 }
 
 android {
@@ -18,6 +19,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "MARVEL_PUBLIC_KEY", "cfa84e8f63e43679a5f9299c92a964a7")
+        buildConfigField("String", "MARVEL_PRIVATE_KEY", "eec98a5800df793ca31812187b3ae75e91597d9a")
     }
 
     buildTypes {
@@ -38,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.11"
@@ -47,6 +52,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -76,10 +82,19 @@ dependencies {
     //NAVEGACION
     implementation(libs.androidx.navigation.compose)
 
-    // DAGGGER HILT
+    // Retrofit
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation (libs.logging.interceptor)
 
+    //Dagger
+    implementation (libs.hilt.android)
+    kapt (libs.hilt.android.compiler)
+    implementation (libs.androidx.hilt.navigation.compose)
 
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
