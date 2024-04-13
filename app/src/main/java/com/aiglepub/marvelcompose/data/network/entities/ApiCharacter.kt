@@ -17,24 +17,3 @@ data class ApiCharacter(
     val modified: Date,
     val resourceURI: String
 )
-
-//EXTENSION PARA CONVERTIR UN NETWORKCHARACTER en un CHARACTER
-fun ApiCharacter.asCharacter(): Character {
-    val comics = comics.items.map { Reference(it.name) }
-    val events = events.items.map { Reference(it.name) }
-    val stories = stories.items.map { Reference(it.name) }
-    val series = series.items.map { Reference(it.name) }
-
-    return Character(
-        id = id,
-        name = name,
-        description = description,
-        thumbnail = thumbnail.asString(),
-        comics = comics,
-        events = events,
-        stories = stories,
-        series = series,
-        urls = urls
-
-    )
-}

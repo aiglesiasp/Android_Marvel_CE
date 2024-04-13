@@ -29,7 +29,7 @@ object ApiClient {
         .client(okHttpClient)
         .build()
 
-    val charactersService: CharactersService = restAdapter.create(CharactersService::class.java)
-
-
+    val charactersService: CharactersService = restAdapter.create()
+    val comicsService: ComicsService = restAdapter.create()
+    val eventsService: EventsService = restAdapter.create()
 }
