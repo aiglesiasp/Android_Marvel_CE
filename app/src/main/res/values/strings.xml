@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MarvelCompose</string>
+    <string name="characters">CHARACTERS</string>
+    <string name="comics">COMICS</string>
+    <string name="stories">STORIES</string>
+    <string name="events">EVENTS</string>
+    <string name="series">SERIES</string>
 </resources>

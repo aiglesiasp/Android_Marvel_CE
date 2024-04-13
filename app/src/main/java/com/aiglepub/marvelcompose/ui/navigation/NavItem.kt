@@ -9,7 +9,7 @@ sealed class NavItem (
     private val navArgs: List<NavArgs> = emptyList()
 ) {
     class ContentType(feature: Feature): NavItem(feature)
-    class ContentDetail(feature: Feature): NavItem(feature, "detail", listOf(NavArgs.ItemId)) {
+    class ContentTypeDetail(feature: Feature): NavItem(feature, "detail", listOf(NavArgs.ItemId)) {
         fun createRoute(itemId: Int) = "${feature.route}/$subRoute/$itemId"
     }
 

@@ -1,4 +1,4 @@
-package com.aiglepub.marvelcompose.ui.screens.detail
+package com.aiglepub.marvelcompose.ui.screens.commons
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +13,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -21,14 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
-import com.aiglepub.marvelcompose.data.entities.Character
+import com.aiglepub.marvelcompose.data.entities.MarvelItem
+import com.aiglepub.marvelcompose.data.entities.Url
 import com.aiglepub.marvelcompose.ui.navigation.AppBarIcon
 import com.aiglepub.marvelcompose.ui.navigation.ArrowBackIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterDetailScaffold(
-    character: Character,
+fun MarvelItemDetailScaffold(
+    marvelItem: MarvelItem,
     onUpClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -37,19 +37,19 @@ fun CharacterDetailScaffold(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = character.name) },
+                title = { Text(text = marvelItem.title) },
                 navigationIcon = {
                     ArrowBackIcon(
                         imageVector = Icons.Default.ArrowBack,
                         onUpClick = { onUpClick() }
                     )
                 },
-                actions = { AppBarOverflowMenu(character.urls) }
+                actions = { AppBarOverflowMenu(marvelItem.urls) }
             )
         },
         floatingActionButton = {
-            if(character.urls.isNotEmpty()) {
-                FloatingActionButton(onClick = { shareCharacter(context, character) }) {
+            if(marvelItem.urls.isNotEmpty()) {
+                FloatingActionButton(onClick = { shareCharacter(context, marvelItem.title, marvelItem.urls.first()) }) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
                 }
             }
@@ -66,12 +66,12 @@ fun CharacterDetailScaffold(
     )
 }
 
-fun shareCharacter(context: Context, character: Character) {
+fun shareCharacter(context: Context, name: String, url: Url) {
     ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(character.name)
-        .setText(character.urls.first().url)
+        .setSubject(name)
+        .setText(url.destination)
         .intent
         .also(context::startActivity)
 }

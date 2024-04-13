@@ -1,4 +1,4 @@
-package com.aiglepub.marvelcompose.ui.screens.detail
+package com.aiglepub.marvelcompose.ui.screens.commons
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -14,10 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalUriHandler
-import com.aiglepub.marvelcompose.data.network.entities.ApiUrl
+import com.aiglepub.marvelcompose.data.entities.Url
 
 @Composable
-fun AppBarOverflowMenu(urls: List<ApiUrl>) {
+fun AppBarOverflowMenu(urls: List<Url>) {
     if(urls.isEmpty()) return
 
     var showMenu by remember { mutableStateOf(false) }
@@ -36,7 +36,7 @@ fun AppBarOverflowMenu(urls: List<ApiUrl>) {
                 DropdownMenuItem(
                     text = { ListItem({ Text(text = it.type) }) },
                     onClick = {
-                        uriHandler.openUri(it.url)
+                        uriHandler.openUri(it.destination)
                         showMenu = false
                     }
                 )
