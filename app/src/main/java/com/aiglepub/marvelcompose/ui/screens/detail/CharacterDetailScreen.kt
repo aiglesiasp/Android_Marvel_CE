@@ -13,14 +13,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +51,7 @@ import com.aiglepub.marvelcompose.data.repositories.CharactersRepository
 
 
 @Composable
-fun CharacterDetailScreen(id: Int) {
+fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
 
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(key1 = true) {
@@ -51,23 +59,59 @@ fun CharacterDetailScreen(id: Int) {
     }
 
     characterState?.let { character ->
-        CharacterDetailScreenContent(character)
+        CharacterDetailScreenContent(character, onUpClick = { onUpClick() } )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterDetailScreenContent(character: Character) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        item{
-            Header(character)
+fun CharacterDetailScreenContent(character: Character, onUpClick: () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = character.name) },
+                navigationIcon = {
+                    IconButton(onClick = { onUpClick() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "More Actions"
+                        )
+                        DropdownMenu(expanded = true, onDismissRequest = { /*TODO*/ }) {
+                            character.urls.forEach {
+                                DropdownMenuItem(
+                                    text = { ListItem(headlineContent = { Text(text = it.type) }) },
+                                    onClick = { /*TODO*/ }
+                                )
+                            }
+                        }
+                    }
+                }
+            )
         }
-        section(Icons.Default.Collections, "SERIES", character.series)
-        section(Icons.Default.Event, "EVENTS", character.events)
-        section(Icons.Default.Book, "COMICS", character.comics)
-        section(Icons.Default.Bookmark, "STORIES", character.stories)
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(it)
+        ) {
+            item{
+                Header(character)
+            }
+            section(Icons.Default.Collections, "SERIES", character.series)
+            section(Icons.Default.Event, "EVENTS", character.events)
+            section(Icons.Default.Book, "COMICS", character.comics)
+            section(Icons.Default.Bookmark, "STORIES", character.stories)
+        }
     }
+
 }
 
 @Composable
@@ -145,8 +189,9 @@ private fun CharacterDetailScreen_Content() {
         listOf(Reference("Events1"), Reference("Events2")),
         listOf(Reference("Stories1"), Reference("Stories2")),
         listOf(Reference("Series1"), Reference("Series2")),
+        emptyList()
     )
     MarvelApp {
-        CharacterDetailScreenContent(character = character)
+        CharacterDetailScreenContent(character = character, onUpClick = {})
     }
 }

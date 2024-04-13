@@ -33,6 +33,8 @@ fun ApiCharacter.asCharacter(): Character {
         comics = comics,
         events = events,
         stories = stories,
-        series = series
+        series = series,
+        urls = urls
+
     )
 }

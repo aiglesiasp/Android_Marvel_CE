@@ -11,8 +11,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,6 +32,7 @@ import coil.request.ImageRequest
 import com.aiglepub.marvelcompose.data.entities.Character
 import com.aiglepub.marvelcompose.data.repositories.CharactersRepository
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharactersScreen(onClick: (Character) -> Unit) {
 
@@ -42,8 +46,8 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
 
     CharactersScreenContent(
         characters = charactersState,
-        onClick = { onClick(it) }
-    )
+        onClick = { onClick(it) },)
+
 }
 
 @Composable
@@ -51,17 +55,23 @@ fun CharactersScreenContent(characters: List<Character>, onClick: (Character) ->
     val finalList = characters.filter {
        it.thumbnail.isNotEmpty()
     }
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(180.dp),
-        contentPadding = PaddingValues(4.dp)
-    ) {
-        items(finalList) {
-            CharacterItem(
-                character = it,
-                modifier = Modifier.clickable { onClick(it) }
-            )
+
+    Scaffold(
+
+    ) {paddingValues->
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(180.dp),
+            contentPadding = paddingValues
+        ) {
+            items(finalList) {character ->
+                CharacterItem(
+                    character = character,
+                    modifier = Modifier.clickable { onClick(character) }
+                )
+            }
         }
     }
+
 }
 
 @Composable

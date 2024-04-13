@@ -24,7 +24,9 @@ fun Navigation() {
         }
         composable(NavItem.CharacterDetail) {
             val id = it.findArgs<Int>(NavArgs.ItemId)
-            CharacterDetailScreen(id = id)
+            CharacterDetailScreen(id = id, onUpClick = {
+                navController.popBackStack()
+            })
         }
     }
 }
