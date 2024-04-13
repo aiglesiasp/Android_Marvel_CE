@@ -2,9 +2,13 @@ package com.aiglepub.marvelcompose.ui.screens.detail
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -14,9 +18,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
 import com.aiglepub.marvelcompose.data.entities.Character
+import com.aiglepub.marvelcompose.ui.navigation.AppBarIcon
+import com.aiglepub.marvelcompose.ui.navigation.ArrowBackIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,9 +39,10 @@ fun CharacterDetailScaffold(
             TopAppBar(
                 title = { Text(text = character.name) },
                 navigationIcon = {
-                    IconButton(onClick = { onUpClick() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
+                    ArrowBackIcon(
+                        imageVector = Icons.Default.ArrowBack,
+                        onUpClick = { onUpClick() }
+                    )
                 },
                 actions = { AppBarOverflowMenu(character.urls) }
             )
@@ -46,7 +54,14 @@ fun CharacterDetailScaffold(
                 }
             }
         },
-        floatingActionButtonPosition = FabPosition.EndOverlay,
+        floatingActionButtonPosition = FabPosition.End,
+        bottomBar = {
+              BottomAppBar {
+                  AppBarIcon(imageVector = Icons.Default.Menu, onClick = { /*TODO*/ }, contentDescription = "Menu")
+                  Spacer(modifier = Modifier.weight(1f))
+                  AppBarIcon(imageVector = Icons.Default.Favorite, onClick = { /*TODO*/ }, contentDescription = "Favorite")
+              }      
+        },
         content = content
     )
 }
