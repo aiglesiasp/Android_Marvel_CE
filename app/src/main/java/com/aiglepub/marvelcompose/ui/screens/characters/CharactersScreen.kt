@@ -48,11 +48,14 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
 
 @Composable
 fun CharactersScreenContent(characters: List<Character>, onClick: (Character) -> Unit) {
+    val finalList = characters.filter {
+       it.thumbnail.isNotEmpty()
+    }
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         contentPadding = PaddingValues(4.dp)
     ) {
-        items(characters) {
+        items(finalList) {
             CharacterItem(
                 character = it,
                 modifier = Modifier.clickable { onClick(it) }
