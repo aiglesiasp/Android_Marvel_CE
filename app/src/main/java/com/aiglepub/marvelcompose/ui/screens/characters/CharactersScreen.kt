@@ -17,18 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.aiglepub.marvelcompose.MarvelApp
 import com.aiglepub.marvelcompose.data.entities.Character
 import com.aiglepub.marvelcompose.data.repositories.CharactersRepository
 
@@ -45,7 +42,7 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
 
     CharactersScreenContent(
         characters = charactersState,
-        onClick = onClick
+        onClick = { onClick(it) }
     )
 }
 
@@ -65,7 +62,7 @@ fun CharactersScreenContent(characters: List<Character>, onClick: (Character) ->
 }
 
 @Composable
-fun CharacterItem(character: Character, modifier: Modifier = Modifier) {
+fun CharacterItem(character: Character ,modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.padding(8.dp)
@@ -90,14 +87,5 @@ fun CharacterItem(character: Character, modifier: Modifier = Modifier) {
             maxLines = 2,
             modifier = Modifier.padding(8.dp, 16.dp)
         )
-
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun CharactersScreen_Preview() {
-    MarvelApp {
-        CharactersScreen(onClick = {})
     }
 }

@@ -13,16 +13,18 @@ import com.aiglepub.marvelcompose.ui.screens.detail.CharacterDetailScreen
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavItem.Characters.route ) {
-
-        composable(NavItem.Characters.route) {
+    NavHost(
+        navController = navController,
+        startDestination = NavItem.Characters.route
+    ) {
+        composable(NavItem.Characters) {
             CharactersScreen(onClick = {character ->
                 navController.navigate(NavItem.CharacterDetail.createRoute(character.id))
             })
         }
-
-        composable(NavItem.CharacterDetail.route) {
-            CharacterDetailScreen(it.findArgs<Int>(NavArgs.ItemId))
+        composable(NavItem.CharacterDetail) {
+            val id = it.findArgs<Int>(NavArgs.ItemId)
+            CharacterDetailScreen(id = id)
         }
     }
 }
@@ -40,7 +42,7 @@ private fun NavGraphBuilder.composable(
 }
 
 private inline fun <reified T> NavBackStackEntry.findArgs(arg: NavArgs): T {
-    val value = arguments?.getString(arg.key)
+    val value = arguments?.get(arg.key)
     requireNotNull(value)
     return value as T
 }
