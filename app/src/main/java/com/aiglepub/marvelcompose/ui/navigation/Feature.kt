@@ -5,5 +5,5 @@ enum class Feature (val route: String) {
     SERIES("series"),
     EVENTS("events"),
     COMICS("comics"),
-    STORIES("stories"),
+    STORIES("stories")
 }
