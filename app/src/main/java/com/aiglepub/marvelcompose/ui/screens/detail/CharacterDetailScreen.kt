@@ -28,18 +28,22 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.aiglepub.marvelcompose.MarvelApp
 import com.aiglepub.marvelcompose.data.entities.Character
+import com.aiglepub.marvelcompose.data.entities.Reference
 import com.aiglepub.marvelcompose.data.repositories.CharactersRepository
+
+
 
 @Composable
 fun CharacterDetailScreen(id: Int) {
 
     var characterState by remember { mutableStateOf<Character?>(null) }
-
     LaunchedEffect(key1 = true) {
         characterState = CharactersRepository.findCharacter(id)
     }
-    characterState?.let {character -> CharacterDetailScreenContent(character) }
 
+    characterState?.let { character ->
+        CharacterDetailScreenContent(character)
+    }
 }
 
 @Composable
@@ -50,7 +54,6 @@ fun CharacterDetailScreenContent(character: Character) {
         item{
             Header(character)
         }
-
     }
 }
 
@@ -92,14 +95,18 @@ fun Header(character: Character) {
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun CharacterDetailScreen_Content() {
     val character = Character(
         1,
         "Iron Man",
-        "Soy como un Robot humano",
-        ""
+        "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas \"Letraset\", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.",
+        "",
+        listOf(Reference("Comic1"), Reference("Comic2")),
+        listOf(Reference("Events1"), Reference("Events2")),
+        listOf(Reference("Stories1"), Reference("Stories2")),
+        listOf(Reference("Series1"), Reference("Series2")),
     )
     MarvelApp {
         CharacterDetailScreenContent(character = character)
