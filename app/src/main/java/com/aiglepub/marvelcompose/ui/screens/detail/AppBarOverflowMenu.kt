@@ -18,6 +18,8 @@ import com.aiglepub.marvelcompose.data.network.entities.ApiUrl
 
 @Composable
 fun AppBarOverflowMenu(urls: List<ApiUrl>) {
+    if(urls.isEmpty()) return
+
     var showMenu by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 

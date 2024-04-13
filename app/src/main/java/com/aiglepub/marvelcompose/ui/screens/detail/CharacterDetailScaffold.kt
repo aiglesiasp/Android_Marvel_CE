@@ -40,8 +40,10 @@ fun CharacterDetailScaffold(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { shareCharacter(context, character) }) {
-                Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
+            if(character.urls.isNotEmpty()) {
+                FloatingActionButton(onClick = { shareCharacter(context, character) }) {
+                    Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.EndOverlay,
