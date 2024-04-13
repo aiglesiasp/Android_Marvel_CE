@@ -1,10 +1,12 @@
 import com.aiglepub.marvelcompose.data.entities.Character
 import com.aiglepub.marvelcompose.data.entities.Comic
+import com.aiglepub.marvelcompose.data.entities.Event
 import com.aiglepub.marvelcompose.data.entities.Reference
 import com.aiglepub.marvelcompose.data.entities.ReferenceList
 import com.aiglepub.marvelcompose.data.entities.Url
 import com.aiglepub.marvelcompose.data.network.entities.ApiCharacter
 import com.aiglepub.marvelcompose.data.network.entities.ApiComic
+import com.aiglepub.marvelcompose.data.network.entities.ApiEvent
 import com.aiglepub.marvelcompose.data.network.entities.ApiReferenceList
 import com.aiglepub.marvelcompose.data.network.entities.asString
 
@@ -67,3 +69,17 @@ private fun ApiReferenceList.toDomain(type: ReferenceList.Type): ReferenceList {
             ?: emptyList()
     )
 }
+
+fun ApiEvent.asEvent(): Event = Event(
+    id,
+    title,
+    description,
+    thumbnail.asString(),
+    listOf(
+        comics.toDomain(ReferenceList.Type.COMIC),
+        characters.toDomain(ReferenceList.Type.CHARACTER),
+        series.toDomain(ReferenceList.Type.SERIES),
+        stories.toDomain(ReferenceList.Type.STORY)
+    ),
+    urls.map { Url(it.type, it.url) }
+)
