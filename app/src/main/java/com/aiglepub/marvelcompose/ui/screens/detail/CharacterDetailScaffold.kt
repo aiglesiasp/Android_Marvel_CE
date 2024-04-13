@@ -1,5 +1,6 @@
 package com.aiglepub.marvelcompose.ui.screens.detail
 
+import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -13,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ShareCompat
 import com.aiglepub.marvelcompose.data.entities.Character
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,6 +25,8 @@ fun CharacterDetailScaffold(
     onUpClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
+    val context = LocalContext.current
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -35,7 +40,7 @@ fun CharacterDetailScaffold(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = { shareCharacter(context, character) }) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
             }
         },
@@ -43,3 +48,14 @@ fun CharacterDetailScaffold(
         content = content
     )
 }
+
+fun shareCharacter(context: Context, character: Character) {
+    ShareCompat
+        .IntentBuilder(context)
+        .setType("text/plain")
+        .setSubject(character.name)
+        .setText(character.urls.first().url)
+        .intent
+        .also(context::startActivity)
+}
+
