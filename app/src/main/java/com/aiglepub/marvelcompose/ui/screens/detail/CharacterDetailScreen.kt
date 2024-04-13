@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,8 +67,6 @@ fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailScreenContent(character: Character, onUpClick: () -> Unit) {
-    var showMenu by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,22 +79,7 @@ fun CharacterDetailScreenContent(character: Character, onUpClick: () -> Unit) {
                         )
                     }
                 },
-                actions = {
-                    IconButton(onClick = { showMenu = !showMenu }) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = "More Actions"
-                        )
-                        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
-                            character.urls.forEach {
-                                DropdownMenuItem(
-                                    text = { ListItem(headlineContent = { Text(text = it.type) }) },
-                                    onClick = { showMenu = false }
-                                )
-                            }
-                        }
-                    }
-                }
+                actions = { AppBarOverflowMenu(character.urls) }
             )
         }
     ) {
