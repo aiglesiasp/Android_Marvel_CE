@@ -66,6 +66,8 @@ fun CharacterDetailScreen(id: Int, onUpClick: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailScreenContent(character: Character, onUpClick: () -> Unit) {
+    var showMenu by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -79,16 +81,16 @@ fun CharacterDetailScreenContent(character: Character, onUpClick: () -> Unit) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { showMenu = !showMenu }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
                             contentDescription = "More Actions"
                         )
-                        DropdownMenu(expanded = true, onDismissRequest = { /*TODO*/ }) {
+                        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
                             character.urls.forEach {
                                 DropdownMenuItem(
                                     text = { ListItem(headlineContent = { Text(text = it.type) }) },
-                                    onClick = { /*TODO*/ }
+                                    onClick = { showMenu = false }
                                 )
                             }
                         }
