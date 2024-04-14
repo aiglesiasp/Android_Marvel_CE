@@ -89,6 +89,10 @@ dependencies {
     kapt (libs.hilt.android.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
 
+    //Accompanist, para utilizar cosas anteriores
+    implementation(libs.accompanist.pager) // VIEW PAGER
+    implementation(libs.accompanist.pager.indicators) // CREAR SENSACION NAVEGACION ENTRE TABS
+
 }
 
 // Allow references to generated code
