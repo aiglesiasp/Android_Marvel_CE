@@ -43,11 +43,11 @@ fun MarvelItemDetailScreen(marvelItem: MarvelItem, onUpClick: () -> Unit) {
     MarvelItemDetailScaffold(
         marvelItem = marvelItem,
         onUpClick = onUpClick
-    ) {
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(it)
+                .padding(paddingValues)
         ) {
             item{
                 Header(marvelItem = marvelItem)
@@ -59,7 +59,6 @@ fun MarvelItemDetailScreen(marvelItem: MarvelItem, onUpClick: () -> Unit) {
             }
         }
     }
-
 }
 
 @Composable

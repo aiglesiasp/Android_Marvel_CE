@@ -18,27 +18,33 @@ import coil.annotation.ExperimentalCoilApi
 import com.aiglepub.marvelcompose.R
 import com.aiglepub.marvelcompose.data.entities.MarvelItem
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : MarvelItem> MarvelItemsListScreen(items: List<T>, onClick: (T) -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) }
+    MarvelItemsList(
+        items = items,
+        onClick = onClick
+    )
+}
+
+
+@Composable
+@OptIn(ExperimentalCoilApi::class)
+fun <T : MarvelItem> MarvelItemsList(
+    items: List<T>,
+    onClick: (T) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        contentPadding = PaddingValues(4.dp),
+        modifier = modifier
+    ) {
+        items(items) {
+            MarvelListItem(
+                marvelItem = it,
+                modifier = Modifier.clickable { onClick(it) }
             )
-        }
-    ) { padding ->
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(180.dp),
-            contentPadding = PaddingValues(4.dp),
-            modifier = Modifier.padding(padding)
-        ) {
-            items(items) {
-                MarvelListItem(
-                    marvelItem = it,
-                    modifier = Modifier.clickable { onClick(it) }
-                )
-            }
         }
     }
 }
